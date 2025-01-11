@@ -1,8 +1,21 @@
-// sample word list (you can expand this)
-const wordList = ["apple", "table", "chair", "plane", "store"];
+var wordList = ["KLAUS", "WRECK", "ANGEL", "SWARM", "STING", "LEWIS", "MASON", "ANGEL", "POPOY", "STORE", "KLAUS", "mason", "angel", "poopy", "store", "KLAUS", "mason", "angel", "poopy", "store"];
 let targetWord = "";
 
-// Background color customization (change hex codes here)
+    
+function getWordOfTheDay() {
+    const today = new Date();
+    const dayOfMonth = today.getDate(); 
+      
+    const totalDaysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+      
+    if (wordList.length < totalDaysInMonth) {
+        console.warn('Not enough words for each day of the month');
+    }
+    
+    return wordList[(dayOfMonth - 1) % wordList.length]; 
+}
+
+
 const correctColor = "#2d8541"; // green
 const presentColor = "#ffd633"; // yellow
 const absentColor = "#ba2525"; // red
@@ -11,32 +24,10 @@ const absentColor = "#ba2525"; // red
 const squares = document.querySelectorAll(".square");
 const keys = document.querySelectorAll(".key");
 
-// function to select a new word and remove it from the word list
-function selectNewWord() {
-    if (wordList.length === 0) {
-        alert("No more words left!");
-        return;
-    }
-    const randomIndex = Math.floor(Math.random() * wordList.length);
-    targetWord = wordList.splice(randomIndex, 1)[0];
-    console.log("New target word:", targetWord); // for debugging
-}
-
-// set the word at midnight
-function scheduleMidnightReset() {
-    const now = new Date();
-    const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    const timeUntilMidnight = nextMidnight - now;
-    setTimeout(() => {
-        selectNewWord();
-        scheduleMidnightReset();
-    }, timeUntilMidnight);
-}
-
 // initialize game
 function initializeGame() {
-    selectNewWord();
-    scheduleMidnightReset();
+    targetWord = getWordOfTheDay();
+    console.log(targetWord);
     setupKeyboardListeners();
 }
 
@@ -45,9 +36,11 @@ let currentGuess = "";
 let currentRow = 0;
 
 function handleInput(letter) {
+
+
     if (letter === "Enter") {
         if (currentGuess.length === 5) {
-            console.log("Submitted guess:", currentGuess); // for debugging
+            console.log("Submitted guess: ", currentGuess); 
             checkGuess(currentGuess);
             currentGuess = "";
             currentRow++;
@@ -69,84 +62,85 @@ function updateGrid() {
     for (let i = 0; i < 5; i++) {
         const square = squares[startIdx + i];
         square.textContent = currentGuess[i] || "";
-        square.style.display = "flex"; // Center text
+        square.style.display = "flex"; 
         square.style.justifyContent = "center";
         square.style.alignItems = "center";
-        square.style.fontSize = "24px"; // Adjust font size for larger text
-        square.style.fontWeight = "bold"; // Optional for emphasis
+        square.style.fontSize = "24px"; 
+        square.style.fontWeight = "bold"; 
         
     }
 }
 
-// check the guess
 function checkGuess(guess) {
+    const animations = new Array(5).fill(null); 
     const targetLetterCounts = {};
-    const animations = [];
+    let isCorrect = 0;
 
-    // Count occurrences of each letter in the target word
     for (const letter of targetWord) {
         targetLetterCounts[letter] = (targetLetterCounts[letter] || 0) + 1;
     }
 
-    const startIdx = currentRow * 5;
-    let isCorrect = true;
+    console.log(targetLetterCounts);
 
-    // First pass: Check for correct positions (green)
+    const startIdx = currentRow * 5;
+
     for (let i = 0; i < 5; i++) {
         const square = squares[startIdx + i];
         const guessedLetter = guess[i];
 
         if (guessedLetter === targetWord[i]) {
-            animations.push(() => {
+            animations[i] = () => {
                 square.style.transition = "background-color 0.5s ease";
-                square.style.backgroundColor = correctColor; // Use custom color
-                square.style.color = "white"; // Use custom color
-            });
+                square.style.backgroundColor = correctColor; // green
+                square.style.color = "white";
+            };
             targetLetterCounts[guessedLetter]--;
-        } else {
-            isCorrect = false;
+            isCorrect++;
         }
     }
 
-    // Second pass: Check for incorrect positions (yellow) or absent letters (red)
     for (let i = 0; i < 5; i++) {
         const square = squares[startIdx + i];
         const guessedLetter = guess[i];
 
-        if (!square.style.backgroundColor) {
-            if (targetLetterCounts[guessedLetter] > 0) {
-                animations.push(() => {
-                    square.style.transition = "background-color 0.5s ease";
-                    square.style.backgroundColor = presentColor; // Use custom color
-                    square.style.color = "white"; // Use custom color
-                });
-                targetLetterCounts[guessedLetter]--;
-            } else {
-                animations.push(() => {
-                    square.style.transition = "background-color 0.5s ease";
-                    square.style.backgroundColor = absentColor; // Use custom color
-                    square.style.color = "white"; // Use custom color
-                });
-            }
+        if (animations[i]) continue;
+
+        if (targetLetterCounts[guessedLetter] > 0) {
+            animations[i] = () => {
+                square.style.transition = "background-color 0.5s ease";
+                square.style.backgroundColor = presentColor; // yellow
+                square.style.color = "white";
+            };
+            targetLetterCounts[guessedLetter]--;
+        } else {
+            animations[i] = () => {
+                square.style.transition = "background-color 0.5s ease";
+                square.style.backgroundColor = absentColor; // red
+                square.style.color = "white";
+            };
         }
     }
 
-    // Execute animations sequentially
     animations.forEach((animate, index) => {
         setTimeout(animate, index * 500);
     });
 
-    // Display alerts after animations
     setTimeout(() => {
-        if (isCorrect) {
+        if (isCorrect === 5) {
             alert("You guessed the word!");
-        } else if (currentRow >= 5) {
+
+            setTimeout(() => {
+                window.location.href = "end.html";
+            }, 3000);
+
+            
+        } else if (currentRow >= 6) {
             alert("Game over! The word was: " + targetWord);
         }
     }, animations.length * 500);
 }
 
-// setup keyboard listeners
+
 function setupKeyboardListeners() {
     keys.forEach((key) => {
         key.addEventListener("click", () => handleInput(key.textContent));
@@ -154,18 +148,15 @@ function setupKeyboardListeners() {
 
     document.addEventListener("keydown", (e) => {
         const key = e.key.toUpperCase();
-        // Prevent the "Meta" (Command) key from affecting the input
         if (e.metaKey) {
             e.preventDefault();
             return;
         }
     
-        // Only allow letters A-Z, Enter, and Backspace
         if ((key >= "A" && key <= "Z") || key === "ENTER" || key === "BACKSPACE") {
             handleInput(key === "BACKSPACE" ? "⌫" : key);
         }
     });
 }
 
-// start the game
 initializeGame();
