@@ -1,4 +1,4 @@
-var wordList = ["KLAUS", "WRECK", "ANGEL", "SWARM", "STING", "LEWIS", "MASON", "ANGEL", "POPOY", "STORE", "KLAUS", "mason", "angel", "poopy", "store", "KLAUS", "mason", "angel", "poopy", "store"];
+var wordList = ["KLAUS", "WRECK", "ANGEL", "SWARM", "STING", "LEWIS", "MASON", "GREEN", "HOWEY", "COUCH", "FERST", "BROWN", "SMITH"];
 let targetWord = "";
 
     
@@ -17,8 +17,9 @@ function getWordOfTheDay() {
 
 
 const correctColor = "#2d8541"; // green
-const presentColor = "#ffd633"; // yellow
+const presentColor = "#e6bf00"; // yellow
 const absentColor = "#ba2525"; // red
+const usedColor = "#436391"; // blue
 
 // initialize grid and keyboard
 const squares = document.querySelectorAll(".square");
@@ -26,6 +27,7 @@ const keys = document.querySelectorAll(".key");
 
 // initialize game
 function initializeGame() {
+    
     targetWord = getWordOfTheDay();
     console.log(targetWord);
     setupKeyboardListeners();
@@ -72,13 +74,15 @@ function updateGrid() {
 }
 
 function checkGuess(guess) {
-    const animations = new Array(5).fill(null); 
+    const guessLetters = [];
+    const animations = new Array(10).fill(null); 
     const targetLetterCounts = {};
     let isCorrect = 0;
 
     for (const letter of targetWord) {
         targetLetterCounts[letter] = (targetLetterCounts[letter] || 0) + 1;
     }
+
 
     console.log(targetLetterCounts);
 
@@ -87,6 +91,10 @@ function checkGuess(guess) {
     for (let i = 0; i < 5; i++) {
         const square = squares[startIdx + i];
         const guessedLetter = guess[i];
+
+        if (!(guessLetters.includes(guessedLetter))) {
+            guessLetters.push(guessedLetter);
+        }
 
         if (guessedLetter === targetWord[i]) {
             animations[i] = () => {
@@ -119,6 +127,22 @@ function checkGuess(guess) {
                 square.style.color = "white";
             };
         }
+        
+    }
+
+    for (i = 5; i < 11; i++) {
+        console.log(guessLetters);
+        const lett = guessLetters.pop();
+        console.log(lett);
+        const ind = "QWERTYUIOPASDFGHJKLXZXCVBNMX".indexOf(lett);
+
+        const key = keys[ind];
+        animations[i] = () => {
+            key.style.transition = "background-color 0.5s ease";
+            key.style.backgroundColor = usedColor; // blue
+            key.style.color = "white";
+        };
+        
     }
 
     animations.forEach((animate, index) => {
@@ -131,11 +155,14 @@ function checkGuess(guess) {
 
             setTimeout(() => {
                 window.location.href = "end.html";
-            }, 3000);
+            }, 2000);
 
             
         } else if (currentRow >= 6) {
             alert("Game over! The word was: " + targetWord);
+            setTimeout(() => {
+                window.location.href = "end.html";
+            }, 2000);
         }
     }, animations.length * 500);
 }
