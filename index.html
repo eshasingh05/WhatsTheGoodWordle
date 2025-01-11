@@ -3,85 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's The Good Word(le)</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <style>
+        body {
+            margin: 0px;
+            background-color: #f6f1c9;
+            width: 100%;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .container {
+            display: grid;
+        }
+
+        .play {
+            width: fit-content;
+            height: fit-content;
+            margin-top: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: white;
+            font-size: 20px;
+            background-color: #595959;
+            padding: 15px 20px; 
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .play:hover {
+            background-color: #707070; 
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            cursor:default;
+        }
+
+    </style>
+    
 </head>
 <body>
-    <div class="header">What's the Good Word(le)</div>
-
-    <div class="container"> 
-        <div class="guesses">
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
+    <div class="container">
+        <img src="home.png">
+        <div class="button">
+            <div class="play" id="start">Play</div>
         </div>
-
-        <div class="keyboard">
-            <div class="row1">
-                <div class="key">Q</div>
-                <div class="key">W</div>
-                <div class="key">E</div>
-                <div class="key">R</div>
-                <div class="key">T</div>
-                <div class="key">Y</div>
-                <div class="key">U</div>
-                <div class="key">I</div>
-                <div class="key">O</div>
-                <div class="key">P</div>
-            </div>
-            <div class="row2">
-                <div class="key">A</div>
-                <div class="key">S</div>
-                <div class="key">D</div>
-                <div class="key">F</div>
-                <div class="key">G</div>
-                <div class="key">H</div>
-                <div class="key">J</div>
-                <div class="key">K</div>
-                <div class="key">L</div>
-            </div>
-            <div class="row3">
-                <div class="key" id="special">Enter</div>
-                <div class="key">Z</div>
-                <div class="key">X</div>
-                <div class="key">C</div>
-                <div class="key">V</div>
-                <div class="key">B</div>
-                <div class="key">N</div>
-                <div class="key">M</div>
-                <div class="key" id="special">⌫</div>
-            </div>
-        </div>
+        
     </div>
 
-    <script src="./script.js"></script>
+    <script src="./home.js"></script>
 
 </body>
 </html>
