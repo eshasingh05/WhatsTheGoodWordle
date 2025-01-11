@@ -6,13 +6,16 @@
     <style>
         body {
             margin: 0px;
-            background-color: #f6f1c9;
+            background-color: #fdfae2;
             width: 100%;
         }
 
         img {
             width: 100%;
+            content: url("./home.png");
         }
+
+        
 
         .container {
             display: grid;
@@ -38,11 +41,27 @@
         .button {
             display: flex;
             justify-content: center;
-            cursor:default;
+            cursor: default;
+        }
+
+        @media (max-width: 600px) {
+            img {
+                content: url("./homePhone.png");
+            }
+            .play {
+                width: fit-content;
+                height: fit-content;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                color: white;
+                font-size: 15px;
+                background-color: #595959;
+                padding: 10px 20px; 
+                border-radius: 25px;
+                cursor: pointer;
+            }
         }
 
     </style>
-
     <title>What's The Good Word(le)</title>
     
 </head>
