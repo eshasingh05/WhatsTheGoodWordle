@@ -5,22 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            background-color: #f6f1c9;
+            background-color: #fdfae2;
         }
 
         div {
             color: #595959;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             text-align: center;
-            margin-top: 50px;;
+            margin-top: 50px;
         }
-
     </style>
-
+    
     <title>What's The Good Word(le)</title>
 </head>
 <body>
+    <div id="explanation"></div>
+    <div id="res"></div>
     <div>Come back tomorrow for another game!</div>
-    
+
+    <script type="module">
+        export {  }
+
+        import { explan, results } from './game.js';
+
+        const explanationElement = document.getElementById('explanation');
+        const resultsElement = document.getElementById('res');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            explanationElement.textContent = explan;
+
+            let res = results;
+            resultsElement.textContent = results;
+            console.log(results);
+        });
+    </script>
 </body>
 </html>
