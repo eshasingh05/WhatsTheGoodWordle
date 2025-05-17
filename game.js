@@ -15,7 +15,7 @@ var wordList = [
     {word: "EDDIE", explanation: "Eddie McAshen was the first African American football player to start for Georgia Tech!"}, 
     {word: "BOBBY", explanation: "For the Bobby Dodd Stadium!"}, 
     {word: "SMITH", explanation: "For the D. M. Smith Building and the Smith Residence Hall."},
-    {word: "SWARM", explanation: "Together we Swarm!"}, 
+    {word: "KALDI", explanation: "She has some pretty good coffee."}, 
     {word: "STING", explanation: "Sting 'em!"},
     {word: "ROBOT", explanation: "idk robots seem techy"}, 
     {word: "GREEK", explanation: "Greek life exists here."}, 
